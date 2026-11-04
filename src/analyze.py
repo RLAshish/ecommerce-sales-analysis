@@ -4,13 +4,16 @@ import pandas as pd
 from ucimlrepo import fetch_ucirepo
 
 ROOT = Path(__file__).resolve().parents[1]
+DATA = ROOT / "data"
 OUT = ROOT / "outputs"
+DATA.mkdir(exist_ok=True)
 OUT.mkdir(exist_ok=True)
 
 
 def main():
     dataset = fetch_ucirepo(id=352)
     df = dataset.data.original.copy()
+    df.to_csv(DATA / "online_retail_raw.csv", index=False)
     df.columns = [str(column).strip().replace(" ", "") for column in df.columns]
 
     required = {
